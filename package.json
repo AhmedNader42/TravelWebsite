@@ -1,10 +1,11 @@
 {
-  "name": "TravelWebsite",
+  "name": "travel-website",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
