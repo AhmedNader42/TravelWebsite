@@ -1,5 +1,6 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
+const handlers = require('./lib/handlers')
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -16,34 +17,22 @@ app.engine(
 app.set('view engine', 'handlebars');
 
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
+app.get('/', handlers.home);
 
-app.get('/about', (req, res) => {
-    const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)]
-    res.render('about', {fortune: randomFortune});
-});
+app.get('/about', handlers.about);
 
-app.use((req, res) => {
-    res.status(404);
-    res.render('404');
-});
+// 404
+app.use(handlers.notFound);
 
-app.use((err, req, res, next) => {
-    console.log(err.message);
-    res.status(500);
-    res.render('500');
-});
+// 500
+app.use(handlers.serverError);
 
-app.listen(port, () => {
-    console.log('Server running on port : ' + port);
-});
-
-const fortunes = [
-    "Conquer your fears or they will conquer you.",
-    "Rivers need springs.",
-    "Do not fear what you don't know.",
-    "You will have a pleasant surprise.",
-    "Whenever possible, keep it simple.",
-    ]
+if(require.main === module) {
+    app.listen(port, () => {
+    console.log( `Express started on http://localhost:${port}` +
+    '; press Ctrl-C to terminate.' )
+    })
+    } else {
+    module.exports = app
+}
+    
